@@ -39,5 +39,8 @@
   },
   "peerDependencies": {
     "react-native-web": "*"
+  },
+  "dependencies": {
+    "qs": "^6.5.1"
   }
 }

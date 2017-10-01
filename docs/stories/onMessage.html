@@ -19,7 +19,11 @@
   });
 
   document.getElementById('button').addEventListener('click', function() {
-    if (window.parent) {
+    if (window.opener) {
+      // Web new window
+      window.opener.postMessage(payload, window.opener.origin);
+      window.close();
+    } else if (window.parent) {
       // Web iframe
       window.parent.postMessage(payload, window.parent.origin);
     } else {

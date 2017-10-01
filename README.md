@@ -16,12 +16,33 @@ resolve: {
 }
 ```
 
+Add the following rule to your webpack config:
+
+```js
+const rule = {
+  test: /postMock.html$/,
+  use: {
+    loader: 'file-loader',
+    options: {
+      name: '[name].[ext]',
+    },
+  },
+};
+```
+
 ## Usage
 ```js
 import WebView from 'WebView'; // don't import from react-native
 ```
 
 See [RN's doc](https://facebook.github.io/react-native/docs/webview.html).
+
+Supported props are:
+- source
+  - uri
+  - uri with POST header (this opens a new window)
+  - html
+- onMessage
 
 ## Examples
 See the [storybook](https://react-native-web-community.github.io/react-native-web-webview/storybook).

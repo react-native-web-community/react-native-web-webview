@@ -1,0 +1,23 @@
+<html>
+<body>
+    <div id="content" style="display: none"></div>
+</body>
+<script>
+    const source = new URLSearchParams(window.location.search);
+
+    let html = `<form method="POST" action="${source.get('uri')}">`;
+
+    const params = JSON.parse(source.get('body'));
+
+    Object.entries(params).forEach(([name, value]) => (html += `<input name="${name}" value="${value}" />`));
+
+    html +=
+      "<input id='submit' type='submit' />" +
+      "</form>";
+
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    document.getElementById('content').appendChild(div);
+    document.getElementById('submit').click();
+</script>
+</html>
