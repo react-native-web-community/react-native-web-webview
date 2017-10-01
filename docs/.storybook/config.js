@@ -6,8 +6,8 @@ setOptions({
   url: 'https://react-native-web-community.github.io/react-native-web-webview',
   goFullScreen: false,
   showLeftPanel: true,
-  showDownPanel: false,
-  downPanelInRight: false
+  showDownPanel: true,
+  downPanelInRight: false,
 });
 
 function loadStories() {

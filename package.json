@@ -30,6 +30,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-react-native": "^4.0.0",
+    "file-loader": "^1.1.4",
     "prettier": "^1.7.3",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
