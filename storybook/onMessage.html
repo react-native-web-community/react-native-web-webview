@@ -1,0 +1,38 @@
+<html>
+<body>
+<h1>Hello world!</h1>
+<button id="button">Send message</button>
+<script type="text/javascript">
+  // React Native
+  function onBridgeReady(cb) {
+    if (window.postMessage.length !== 1) {
+      setTimeout(function() {
+        onBridgeReady(cb)
+      }, 100);
+    } else {
+      cb();
+    }
+  }
+
+  var payload = JSON.stringify({
+    name: 'WebView',
+  });
+
+  document.getElementById('button').addEventListener('click', function() {
+    if (window.opener) {
+      // Web new window
+      window.opener.postMessage(payload, window.opener.origin);
+      window.close();
+    } else if (window.parent) {
+      // Web iframe
+      window.parent.postMessage(payload, window.parent.origin);
+    } else {
+      // React Native
+      onBridgeReady(function() {
+        window.postMessage(payload);
+      });
+    }
+  });
+</script>
+</body>
+</html>
