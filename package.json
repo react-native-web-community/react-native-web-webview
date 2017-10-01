@@ -1,0 +1,42 @@
+{
+  "name": "react-native-web-webview",
+  "version": "1.0.1",
+  "description": "React Native for Web implementation of RN's WebView",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:react-native-web-community/react-native-web-webview.git"
+  },
+  "author": {
+    "name": "Louis Lagrange",
+    "email": "lagrange.louis@gmail.com",
+    "url": "https://github.com/Minishlink"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "react-native-web",
+    "WebView"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "babel": {
+    "presets": [
+      "react-native"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-react-native": "^4.0.0",
+    "prettier": "^1.7.3",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-native-web": "^0.1.1",
+    "webpack": "^3.6.0"
+  },
+  "peerDependencies": {
+    "react-native-web": "*"
+  }
+}
