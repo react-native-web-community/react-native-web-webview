@@ -34,9 +34,13 @@ export default class extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {onMessage} = nextProps
+
+    if(this.props.onMessage && onMessage) return
+
     componentWillUnmount()
 
-    if (nextProps.onMessage) {
+    if (onMessage) {
       window.addEventListener('message', this.onMessage, true);
     }
   }
