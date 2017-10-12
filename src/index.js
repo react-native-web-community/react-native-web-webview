@@ -2,10 +2,17 @@ import Qs from 'qs';
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+
 export default class extends Component {
-
-
-
   componentDidMount() {
     if (this.props.onMessage) {
       window.addEventListener('message', this.onMessage, true);
@@ -74,11 +81,3 @@ export default class extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

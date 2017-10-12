@@ -1,15 +1,17 @@
 <html>
-<body>
+  <body>
     <div id="content" style="display: none"></div>
-</body>
-<script>
+  </body>
+  <script>
     const source = new URLSearchParams(window.location.search);
 
     let html = `<form method="POST" action="${source.get('uri')}">`;
 
     const params = JSON.parse(source.get('body'));
 
-    Object.entries(params).forEach(([name, value]) => (html += `<input name="${name}" value="${value}" />`));
+    Object.entries(params).forEach(([name, value]) => (
+      html += `<input name="${name}" value="${value}" />`
+    ));
 
     html +=
       "<input id='submit' type='submit' />" +
@@ -19,5 +21,5 @@
     div.innerHTML = html;
     document.getElementById('content').appendChild(div);
     document.getElementById('submit').click();
-</script>
+  </script>
 </html>
