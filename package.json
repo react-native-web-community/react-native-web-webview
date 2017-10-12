@@ -30,12 +30,12 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-react-native": "^4.0.0",
-    "file-loader": "^1.1.4",
-    "prettier": "^1.7.3",
+    "file-loader": "^1.1.5",
+    "prettier": "^1.7.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-native-web": "^0.1.1",
-    "webpack": "^3.6.0"
+    "react-native-web": "^0.1.8",
+    "webpack": "^3.7.1"
   },
   "peerDependencies": {
     "react-native-web": "*",
