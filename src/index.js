@@ -6,9 +6,6 @@ export default class extends Component {
   constructor(props) {
     super(props);
 
-    if (props.onMessage) {
-      window.addEventListener('message', this.onMessage, true);
-    }
 
     if (props.source.method === 'POST') {
       const contentType = props.source.headers['Content-Type'];
@@ -27,6 +24,26 @@ export default class extends Component {
             body: JSON.stringify(body),
           })
       );
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.onMessage) {
+      window.addEventListener('message', this.onMessage, true);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    componentWillUnmount()
+
+    if (nextProps.onMessage) {
+      window.addEventListener('message', this.onMessage, true);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.onMessage) {
+      window.removeEventListener('message', this.onMessage, true);
     }
   }
 
