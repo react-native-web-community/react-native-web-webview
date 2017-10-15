@@ -6,7 +6,6 @@ export default class extends Component {
   constructor(props) {
     super(props);
 
-
     if (props.source.method === 'POST') {
       const contentType = props.source.headers['Content-Type'];
       let body = '';
@@ -29,18 +28,6 @@ export default class extends Component {
 
   componentDidMount() {
     if (this.props.onMessage) {
-      window.addEventListener('message', this.onMessage, true);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {onMessage} = nextProps
-
-    if(this.props.onMessage && onMessage) return
-
-    componentWillUnmount()
-
-    if (onMessage) {
       window.addEventListener('message', this.onMessage, true);
     }
   }
