@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
 export default class extends Component {
+  state = { html: null };
+
   constructor(props) {
     super(props);
 
@@ -36,6 +38,12 @@ export default class extends Component {
             source.method
           );
         }
+      } else {
+        const { uri, ...options } = source;
+        const baseUrl = uri.substr(0, uri.lastIndexOf('/') + 1);
+        fetch(uri, options)
+          .then(response => response.text())
+          .then(html => this.setState({ html: `<base href="${baseUrl}" />` + html }));
       }
     }
   }
@@ -63,10 +71,11 @@ export default class extends Component {
       );
     }
 
+    const { source } = this.props;
     return (
       <iframe
-        src={this.props.source.uri}
-        srcDoc={this.props.source.html}
+        src={!source.method ? source.uri : undefined}
+        srcDoc={this.state.html || source.html}
         style={{ width: '100%', height: '100%', border: 0 }}
         allowFullScreen
         allowpaymentrequest="true"
