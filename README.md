@@ -39,13 +39,13 @@ See [RN's doc](https://facebook.github.io/react-native/docs/webview.html).
 
 Supported props are:
 - source
-  - uri
-  - uri with POST header (this opens a new window)
-  - html
 - onMessage
 
 Additional props are:
-- `newWindow`: this will open the source in a new window. Useful when your target has X-Frame-Options or a no-CORS policy.
+- `newWindow`: this will open the source in a new window.
+Useful when your target has X-Frame-Options or a no-CORS policy.
+It currently only supports a `source` prop with a `method` set to `POST`.
+Please feel free to do a PR to support more request types!
 
 ## Examples
 See the [storybook](https://react-native-web-community.github.io/react-native-web-webview/storybook).
