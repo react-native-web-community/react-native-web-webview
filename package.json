@@ -1,6 +1,6 @@
 {
   "name": "react-native-web-webview",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "React Native for Web implementation of RN's WebView",
   "main": "src/index.js",
   "repository": {
@@ -38,8 +38,8 @@
     "webpack": "^3.6.0"
   },
   "peerDependencies": {
-    "react-native-web": "*",
-    "file-loader": "*"
+    "file-loader": "*",
+    "react-native-web": "*"
   },
   "dependencies": {
     "qs": "^6.5.1"
