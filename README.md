@@ -44,6 +44,9 @@ Supported props are:
   - html
 - onMessage
 
+Additional props are:
+- `newWindow`: this will open the source in a new window. Useful when your target has X-Frame-Options or a no-CORS policy.
+
 ## Examples
 See the [storybook](https://react-native-web-community.github.io/react-native-web-webview/storybook).
 

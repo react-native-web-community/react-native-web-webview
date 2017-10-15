@@ -6,23 +6,37 @@ export default class extends Component {
   constructor(props) {
     super(props);
 
-    if (props.source.method === 'POST') {
-      const contentType = props.source.headers['Content-Type'];
-      let body = '';
-      if (contentType && contentType.includes('application/x-www-form-urlencoded')) {
-        body = Qs.parse(props.source.body);
-      } else {
-        console.warn('[WebView] Content type is not supported yet, please make a PR!', contentType);
-        return;
-      }
+    const { source } = props;
+    if (source.method) {
+      if (props.newWindow) {
+        if (source.method === 'POST') {
+          const contentType = source.headers['Content-Type'];
+          let body = '';
+          if (contentType && contentType.includes('application/x-www-form-urlencoded')) {
+            body = Qs.parse(source.body);
+          } else {
+            console.warn(
+              '[WebView] When opening a new window, this content-type is not supported yet, please make a PR!',
+              contentType
+            );
+            return;
+          }
 
-      window.open(
-        require('./postMock.html') + '?' +
-          Qs.stringify({
-            uri: props.source.uri,
-            body: JSON.stringify(body),
-          })
-      );
+          window.open(
+            require('./postMock.html') +
+              '?' +
+              Qs.stringify({
+                uri: source.uri,
+                body: JSON.stringify(body),
+              })
+          );
+        } else {
+          console.warn(
+            '[WebView] When opening a new window, this method is not supported yet, please make a PR!',
+            source.method
+          );
+        }
+      }
     }
   }
 
@@ -41,7 +55,7 @@ export default class extends Component {
   onMessage = nativeEvent => nativeEvent.isTrusted && this.props.onMessage({ nativeEvent });
 
   render() {
-    if (this.props.source.method === 'POST') {
+    if (this.props.newWindow) {
       return (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
