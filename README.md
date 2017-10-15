@@ -42,8 +42,10 @@ Supported props are:
 - onMessage
 
 Additional props are:
-- `newWindow`: this will open the source in a new window.
-Useful when your target has X-Frame-Options or a no-CORS policy.
+- `newWindow`: (*boolean*|*{ name: string, features: string}*)
+This will open the source in a new window, optionally giving it an [internal name and custom features](https://developer.mozilla.org/en-US/docs/Web/API/Window/open).
+By default, the name is `webview` and there are no features set.
+This is useful when your target has X-Frame-Options or a no-CORS policy.
 It currently only supports a `source` prop with a `method` set to `POST`.
 Please feel free to do a PR to support more request types!
 

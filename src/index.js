@@ -14,7 +14,7 @@ export default class extends Component {
     if (!source.method) return;
 
     if (newWindow) {
-      this.handleSourceInNewWindow(source);
+      this.handleSourceInNewWindow(source, newWindow);
     } else {
       this.handleSourceInIFrame(source);
     }
@@ -28,7 +28,7 @@ export default class extends Component {
       .then(html => this.setState({ html: `<base href="${baseUrl}" />` + html }));
   };
 
-  handleSourceInNewWindow = source => {
+  handleSourceInNewWindow = (source, newWindow) => {
     if (source.method === 'POST') {
       const contentType = source.headers['Content-Type'];
       let body = '';
@@ -48,7 +48,9 @@ export default class extends Component {
           Qs.stringify({
             uri: source.uri,
             body: JSON.stringify(body),
-          })
+          }),
+        newWindow.name || 'webview',
+        newWindow.features || undefined
       );
     } else {
       console.warn(
