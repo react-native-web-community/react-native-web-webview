@@ -93,9 +93,10 @@ export default class extends Component {
       );
     }
 
-    const { source } = this.props;
+    const { title, source, onLoad } = this.props;
     return (
       <iframe
+        title={title}
         src={!source.method ? source.uri : undefined}
         srcDoc={this.state.html || source.html}
         style={{ width: '100%', height: '100%', border: 0 }}
@@ -103,6 +104,7 @@ export default class extends Component {
         allowpaymentrequest="true"
         frameBorder="0"
         seamless
+        onLoad={onLoad}
       />
     );
   }
