@@ -2,6 +2,7 @@ import Qs from 'qs';
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
+
 export default class extends Component {
   state = { html: null };
 
@@ -93,14 +94,13 @@ export default class extends Component {
       );
     }
 
-    const { title, source, onLoad, scrollEnable } = this.props;
+    const { title, source, onLoad, scrollEnabled } = this.props;
     return (
       <iframe
         title={title}
-        scrolling={scrollEnable ? "yes" : "no"}
         src={!source.method ? source.uri : undefined}
         srcDoc={this.state.html || source.html}
-        style={{ width: '100%', height: '100%', border: 0 }}
+        style={[styles.iframeStyle, !scrollEnabled && styles.scrolling]}
         allowFullScreen
         allowpaymentrequest="true"
         frameBorder="0"
@@ -116,5 +116,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  iframeStyle: {
+    width: '100%',
+    height: '100%',
+    border: 0
+  },
+  scrolling: {
+    overflow: 'hidden'
   },
 });
