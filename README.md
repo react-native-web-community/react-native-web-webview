@@ -47,6 +47,8 @@ This will open the source in a new window, optionally giving it an [internal nam
 By default, the name is `webview` and there are no features set.
 This is useful when your target has X-Frame-Options or a no-CORS policy.
 It currently only supports a `source` prop with a `method` set to `POST`.
+- `title`: (*string*) This prop will set the `webview` title.
+- `scrollEnable`: (*boolean*) If `true` the scrolling will be enable in the `webview`, if `false` or `undefined` the scrolling will be disable.
 Please feel free to do a PR to support more request types!
 
 ## Examples
