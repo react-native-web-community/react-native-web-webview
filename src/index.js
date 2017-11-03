@@ -93,10 +93,11 @@ export default class extends Component {
       );
     }
 
-    const { title, source, onLoad } = this.props;
+    const { title, source, onLoad, scrollEnable } = this.props;
     return (
       <iframe
         title={title}
+        scrolling={scrollEnable ? "yes" : "no"}
         src={!source.method ? source.uri : undefined}
         srcDoc={this.state.html || source.html}
         style={{ width: '100%', height: '100%', border: 0 }}
