@@ -93,13 +93,13 @@ export default class extends Component {
       );
     }
 
-    const { title, source, onLoad } = this.props;
+    const { title, source, onLoad, scrollEnabled } = this.props;
     return (
       <iframe
         title={title}
         src={!source.method ? source.uri : undefined}
         srcDoc={this.state.html || source.html}
-        style={{ width: '100%', height: '100%', border: 0 }}
+        style={[styles.iframe, !scrollEnabled && styles.noScroll]}
         allowFullScreen
         allowpaymentrequest="true"
         frameBorder="0"
@@ -115,5 +115,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  iframe: {
+    width: '100%',
+    height: '100%',
+    border: 0,
+  },
+  noScroll: {
+    overflow: 'hidden',
   },
 });
