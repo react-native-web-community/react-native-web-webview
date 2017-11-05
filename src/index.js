@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
 export default class extends Component {
+  static defaultProps = {
+    scrollEnabled: true,
+  };
+
   state = { html: null };
 
   constructor(props) {
@@ -99,7 +103,12 @@ export default class extends Component {
         title={title}
         src={!source.method ? source.uri : undefined}
         srcDoc={this.state.html || source.html}
-        style={[styles.iframe, !scrollEnabled && styles.noScroll]}
+        style={{
+          width: '100%',
+          height: '100%',
+          border: 0,
+          overflow: !scrollEnabled ? 'hidden' : undefined,
+        }}
         allowFullScreen
         allowpaymentrequest="true"
         frameBorder="0"
