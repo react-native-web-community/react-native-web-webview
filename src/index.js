@@ -1,6 +1,6 @@
 import Qs from 'qs';
 import React, { Component } from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, createElement } from 'react-native';
 
 export default class extends Component {
   static defaultProps = {
@@ -98,24 +98,17 @@ export default class extends Component {
     }
 
     const { title, source, onLoad, scrollEnabled } = this.props;
-    return (
-      <iframe
-        title={title}
-        src={!source.method ? source.uri : undefined}
-        srcDoc={this.state.html || source.html}
-        style={{
-          width: '100%',
-          height: '100%',
-          border: 0,
-          overflow: !scrollEnabled ? 'hidden' : undefined,
-        }}
-        allowFullScreen
-        allowpaymentrequest="true"
-        frameBorder="0"
-        seamless
-        onLoad={onLoad}
-      />
-    );
+    return createElement('iframe', {
+      title,
+      src: !source.method ? source.uri : undefined,
+      srcDoc: this.state.html || source.html,
+      style: [styles.iframe, scrollEnabled && styles.noScroll],
+      allowFullScreen: true,
+      allowpaymentrequest: 'true',
+      frameBorder: '0',
+      seamless: true,
+      onLoad,
+    });
   }
 }
 
