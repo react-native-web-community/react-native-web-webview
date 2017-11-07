@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   iframe: {
     width: '100%',
     height: '100%',
-    border: 0,
+    borderWidth: 0,
   },
   noScroll: {
     overflow: 'hidden',
