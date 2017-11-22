@@ -86,7 +86,7 @@ export default class extends Component {
     }
   }
 
-  onMessage = nativeEvent => nativeEvent.isTrusted && this.props.onMessage({ nativeEvent });
+  onMessage = nativeEvent => this.props.onMessage({ nativeEvent });
 
   render() {
     if (this.props.newWindow) {
