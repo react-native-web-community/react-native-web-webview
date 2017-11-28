@@ -88,7 +88,7 @@ export default class extends Component {
 
   onMessage = nativeEvent => this.props.onMessage({ nativeEvent });
 
-  injectedJavaScript = html => html.replace(/<body>/, `<body><script>${this.props.injectedJavaScript}</script>`);
+  injectedJavaScript = html => html && html.replace(/<body>/, `<body><script>${this.props.injectedJavaScript}</script>`);
 
   render() {
     if (this.props.newWindow) {
