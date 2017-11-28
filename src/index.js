@@ -88,6 +88,8 @@ export default class extends Component {
 
   onMessage = nativeEvent => this.props.onMessage({ nativeEvent });
 
+  injectedJavaScript = html => html.replace(/<body>/, `<body><script>${this.props.injectedJavaScript}</script>`);
+
   render() {
     if (this.props.newWindow) {
       return (
@@ -101,7 +103,7 @@ export default class extends Component {
     return createElement('iframe', {
       title,
       src: !source.method ? source.uri : undefined,
-      srcDoc: this.state.html || source.html,
+      srcDoc: this.injectedJavaScript(this.state.html || source.html),
       style: [styles.iframe, scrollEnabled && styles.noScroll],
       allowFullScreen: true,
       allowpaymentrequest: 'true',
