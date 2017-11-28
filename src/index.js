@@ -99,11 +99,13 @@ export default class extends Component {
       );
     }
 
-    const { title, source, onLoad, scrollEnabled } = this.props;
+    const { title, source, onLoad, scrollEnabled, style } = this.props;
     return createElement('iframe', {
       title,
       src: !source.method ? source.uri : undefined,
       srcDoc: this.injectedJavaScript(this.state.html || source.html),
+      width: style && style.width,
+      height: style && style.height,
       style: [styles.iframe, scrollEnabled && styles.noScroll],
       allowFullScreen: true,
       allowpaymentrequest: 'true',
