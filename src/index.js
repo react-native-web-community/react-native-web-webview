@@ -110,12 +110,13 @@ export default class extends Component {
     }
 
     const { title, source, onLoad, scrollEnabled } = this.props;
+    const styleObj = StyleSheet.flatten(this.props.style);
     return createElement('iframe', {
       title,
       src: !source.method ? source.uri : undefined,
       srcDoc: this.handleInjectedJavaScript(this.state.html || source.html),
-      width: '100%',
-      height: '100%',
+      width: styleObj && styleObj.width,
+      height: styleObj && styleObj.height,
       style: [styles.iframe, scrollEnabled && styles.noScroll],
       allowFullScreen: true,
       allowpaymentrequest: 'true',
