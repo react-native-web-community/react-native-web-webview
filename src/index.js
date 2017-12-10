@@ -88,6 +88,18 @@ export default class extends Component {
 
   onMessage = nativeEvent => this.props.onMessage({ nativeEvent });
 
+  handleInjectedJavaScript = html => {
+    if (this.props.injectedJavaScript) {
+      if (html) {
+        return html.replace('</body>', `<script>${this.props.injectedJavaScript}</script></body>`);
+      } else {
+        return html;
+      }
+    } else {
+      return html;
+    }
+  };
+
   render() {
     if (this.props.newWindow) {
       return (
@@ -98,10 +110,13 @@ export default class extends Component {
     }
 
     const { title, source, onLoad, scrollEnabled } = this.props;
+    const styleObj = StyleSheet.flatten(this.props.style);
     return createElement('iframe', {
       title,
       src: !source.method ? source.uri : undefined,
-      srcDoc: this.state.html || source.html,
+      srcDoc: this.handleInjectedJavaScript(this.state.html || source.html),
+      width: styleObj && styleObj.width,
+      height: styleObj && styleObj.height,
       style: [styles.iframe, scrollEnabled && styles.noScroll],
       allowFullScreen: true,
       allowpaymentrequest: 'true',
