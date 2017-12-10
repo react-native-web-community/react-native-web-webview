@@ -41,6 +41,7 @@ Supported props are:
 - `source`
 - `onMessage`
 - `scrollEnabled`
+- `injectedJavaScript`
 
 Additional, web-specific props are:
 - `newWindow`: (*boolean*|*{ name: string, features: string}*)
