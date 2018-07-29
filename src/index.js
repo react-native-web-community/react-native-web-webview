@@ -7,10 +7,11 @@ export default class extends Component {
     scrollEnabled: true,
   };
 
-  state = { html: null };
+  state = { html: null, elementId: null };
 
   constructor(props) {
     super(props);
+    this.state.elementId = props.id || (("" + new Date().getTime()) + ("_" + Math.random()));
     this.handleSource(props.source, props.newWindow);
   }
 
@@ -88,6 +89,11 @@ export default class extends Component {
 
   onMessage = nativeEvent => this.props.onMessage({ nativeEvent });
 
+  postMessage = (message, origin) => {
+    let el = document.getElementById(this.state.elementId);
+    el.contentWindow.postMessage(message, origin);
+  }
+
   handleInjectedJavaScript = html => {
     if (this.props.injectedJavaScript) {
       if (html) {
@@ -109,10 +115,13 @@ export default class extends Component {
       );
     }
 
+    let elementId = this.state.elementId;
+
     const { title, source, onLoad, scrollEnabled } = this.props;
     const styleObj = StyleSheet.flatten(this.props.style);
-    return createElement('iframe', {
+    let contentFrame = createElement('iframe', {
       title,
+      id: elementId,
       src: !source.method ? source.uri : undefined,
       srcDoc: this.handleInjectedJavaScript(this.state.html || source.html),
       width: styleObj && styleObj.width,
@@ -124,6 +133,8 @@ export default class extends Component {
       seamless: true,
       onLoad,
     });
+
+    return contentFrame;
   }
 }
 
