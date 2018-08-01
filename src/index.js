@@ -14,6 +14,8 @@ export default class extends Component {
     this.handleSource(props.source, props.newWindow);
   }
 
+  setRef = ref => this.frameRef = ref;
+
   handleSource = (source, newWindow) => {
     if (!source.method) return;
 
@@ -90,7 +92,7 @@ export default class extends Component {
 
   postMessage = (message, origin) => {
     this.frameRef.contentWindow.postMessage(message, origin);
-  }
+  };
 
   handleInjectedJavaScript = html => {
     if (this.props.injectedJavaScript) {
@@ -117,7 +119,7 @@ export default class extends Component {
     const styleObj = StyleSheet.flatten(this.props.style);
     return createElement('iframe', {
       title,
-      ref: frameRef => { this.frameRef = frameRef; },
+      ref: this.setRef,
       src: !source.method ? source.uri : undefined,
       srcDoc: this.handleInjectedJavaScript(this.state.html || source.html),
       width: styleObj && styleObj.width,
