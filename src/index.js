@@ -88,6 +88,10 @@ export default class extends Component {
 
   onMessage = nativeEvent => this.props.onMessage({ nativeEvent });
 
+  postMessage = (message, origin) => {
+    this.frameRef.contentWindow.postMessage(message, origin);
+  }
+
   handleInjectedJavaScript = html => {
     if (this.props.injectedJavaScript) {
       if (html) {
@@ -113,6 +117,7 @@ export default class extends Component {
     const styleObj = StyleSheet.flatten(this.props.style);
     return createElement('iframe', {
       title,
+      ref: frameRef => { this.frameRef = frameRef; },
       src: !source.method ? source.uri : undefined,
       srcDoc: this.handleInjectedJavaScript(this.state.html || source.html),
       width: styleObj && styleObj.width,
