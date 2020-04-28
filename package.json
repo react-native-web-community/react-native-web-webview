@@ -1,6 +1,6 @@
 {
   "name": "react-native-web-webview",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "React Native for Web implementation of RN's WebView",
   "main": "dist/index.js",
   "main-es": "src/index.js",
