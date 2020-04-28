@@ -2,7 +2,7 @@ import Qs from 'qs';
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator, createElement } from 'react-native';
 
-export default class extends Component {
+export class WebView extends Component {
   static defaultProps = {
     scrollEnabled: true,
   };

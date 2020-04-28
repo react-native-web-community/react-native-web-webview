@@ -11,7 +11,7 @@ resolve: {
     alias: {
         'react-native': 'react-native-web',
         ...
-        'WebView': 'react-native-web-webview',
+        'react-native-webview': 'react-native-web-webview',
     }
 }
 ```
@@ -32,16 +32,17 @@ const rule = {
 
 ## Usage
 ```js
-import WebView from 'WebView'; // don't import from react-native
+import { WebView } from 'react-native-webview';
 ```
 
-See [RN's doc](https://facebook.github.io/react-native/docs/webview.html).
+See [RN's doc](https://github.com/react-native-community/react-native-webview).
 
 Supported props are:
 - `source`
 - `onMessage`
 - `scrollEnabled`
 - `injectedJavaScript`
+- `style`
 
 Additional, web-specific props are:
 - `newWindow`: (*boolean*|*{ name: string, features: string}*)

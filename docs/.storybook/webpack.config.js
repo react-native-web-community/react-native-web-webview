@@ -30,7 +30,7 @@ module.exports = (storybookBaseConfig, configType) => {
 
   storybookBaseConfig.resolve.alias = {
     'react-native': 'react-native-web',
-    WebView: path.join(__dirname, '../../src/'),
+    'react-native-webview': path.join(__dirname, '../../src/'),
   };
 
   return storybookBaseConfig;

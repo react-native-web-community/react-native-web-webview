@@ -1,5 +1,5 @@
 import React from 'react';
-import WebView from 'WebView';
+import { WebView } from 'react-native-webview';
 import { text } from '@storybook/addon-knobs';
 
 export const basic = () => (
