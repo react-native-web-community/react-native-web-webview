@@ -1,6 +1,6 @@
 import Qs from 'qs';
 import React, { Component } from 'react';
-import { StyleSheet, View, ActivityIndicator, createElement } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, unstable_createElement as createElement } from 'react-native';
 
 export class WebView extends Component {
   static defaultProps = {
