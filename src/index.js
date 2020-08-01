@@ -124,7 +124,7 @@ export class WebView extends Component {
       srcDoc: this.handleInjectedJavaScript(this.state.html || source.html),
       width: styleObj && styleObj.width,
       height: styleObj && styleObj.height,
-      style: [styles.iframe, scrollEnabled && styles.noScroll, this.props.style],
+      style: StyleSheet.flatten([styles.iframe, scrollEnabled && styles.noScroll, this.props.style]),
       allowFullScreen: true,
       allowpaymentrequest: 'true',
       frameBorder: '0',
