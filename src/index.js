@@ -134,6 +134,8 @@ export class WebView extends Component {
   }
 }
 
+export default WebView;
+
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
