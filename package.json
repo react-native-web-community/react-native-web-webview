@@ -41,9 +41,9 @@
     "babel-preset-react-native": "^4.0.0",
     "file-loader": "^1.1.4",
     "prettier": "^2.0.5",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-native-web": "^0.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-native-web": "^0.13.4",
     "webpack": "^3.6.0"
   },
   "peerDependencies": {
