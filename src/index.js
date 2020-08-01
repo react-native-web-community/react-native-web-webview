@@ -14,7 +14,7 @@ export class WebView extends Component {
     this.handleSource(props.source, props.newWindow);
   }
 
-  setRef = ref => this.frameRef = ref;
+  setRef = (ref) => (this.frameRef = ref);
 
   handleSource = (source, newWindow) => {
     if (!source.method) return;
@@ -26,12 +26,12 @@ export class WebView extends Component {
     }
   };
 
-  handleSourceInIFrame = source => {
+  handleSourceInIFrame = (source) => {
     const { uri, ...options } = source;
     const baseUrl = uri.substr(0, uri.lastIndexOf('/') + 1);
     fetch(uri, options)
-      .then(response => response.text())
-      .then(html => this.setState({ html: `<base href="${baseUrl}" />` + html }));
+      .then((response) => response.text())
+      .then((html) => this.setState({ html: `<base href="${baseUrl}" />` + html }));
   };
 
   handleSourceInNewWindow = (source, newWindow) => {
@@ -88,13 +88,13 @@ export class WebView extends Component {
     }
   }
 
-  onMessage = nativeEvent => this.props.onMessage({ nativeEvent });
+  onMessage = (nativeEvent) => this.props.onMessage({ nativeEvent });
 
   postMessage = (message, origin) => {
     this.frameRef.contentWindow.postMessage(message, origin);
   };
 
-  handleInjectedJavaScript = html => {
+  handleInjectedJavaScript = (html) => {
     if (this.props.injectedJavaScript) {
       if (html) {
         return html.replace('</body>', `<script>${this.props.injectedJavaScript}</script></body>`);
