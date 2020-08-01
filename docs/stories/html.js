@@ -1,5 +1,5 @@
 import React from 'react';
-import WebView from 'WebView';
+import { WebView } from 'react-native-webview';
 
 const html = '<html><body><h1>Hello world!</h1></body></html>';
 
