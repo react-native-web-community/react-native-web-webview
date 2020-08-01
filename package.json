@@ -22,7 +22,7 @@
   "scripts": {
     "prepublish": "yarn build",
     "build": "mkdir -p dist && babel src --out-dir dist --copy-files",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "prettier --check ."
   },
   "babel": {
     "presets": [
@@ -40,7 +40,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-react-native": "^4.0.0",
     "file-loader": "^1.1.4",
-    "prettier": "^1.7.3",
+    "prettier": "^2.0.5",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-native-web": "^0.1.1",
