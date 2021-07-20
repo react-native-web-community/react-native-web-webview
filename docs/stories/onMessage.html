@@ -1,6 +1,8 @@
 <html>
   <body>
     <h1>Hello world!</h1>
+
+    <input type="text" id="message-input"  placeholder="enter your message">
     <button id="button">Send message</button>
     <script type="text/javascript">
       // React Native
@@ -14,11 +16,10 @@
         }
       }
 
-      var payload = JSON.stringify({
-        name: 'WebView',
-      });
+
 
       document.getElementById('button').addEventListener('click', function () {
+        let payload = document.getElementById("message-input").value || '';
         if (window.opener) {
           // Web new window
           window.opener.postMessage(payload, window.opener.origin);
