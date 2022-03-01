@@ -125,6 +125,7 @@ export class WebView extends Component {
       width: styleObj && styleObj.width,
       height: styleObj && styleObj.height,
       style: StyleSheet.flatten([styles.iframe, scrollEnabled && styles.noScroll, this.props.style]),
+      scrolling: scrollEnabled ? 'yes' : 'no',
       allowFullScreen: true,
       allowpaymentrequest: 'true',
       frameBorder: '0',
