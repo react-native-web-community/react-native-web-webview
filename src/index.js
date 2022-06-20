@@ -129,6 +129,7 @@ export class WebView extends Component {
       allowpaymentrequest: 'true',
       frameBorder: '0',
       seamless: true,
+      scrollEnabled?'yes':'no',
       onLoad,
     });
   }
