@@ -7,14 +7,64 @@ export class WebView extends Component {
     scrollEnabled: true,
   };
 
-  state = { html: null };
+  state = {
+    html: null,
+    isLoading: false,
+  };
 
   constructor(props) {
     super(props);
     this.handleSource(props.source, props.newWindow);
   }
 
-  setRef = (ref) => (this.frameRef = ref);
+  setRef = (ref) => {
+    this.frameRef = ref;
+    if (ref) {
+      // Trigger onLoadStart when iframe is mounted
+      this.handleLoadStart();
+    }
+  };
+
+  // Navigation methods
+  goBack = () => {
+    if (this.frameRef && this.frameRef.contentWindow) {
+      this.frameRef.contentWindow.history.back();
+    }
+  };
+
+  goForward = () => {
+    if (this.frameRef && this.frameRef.contentWindow) {
+      this.frameRef.contentWindow.history.forward();
+    }
+  };
+
+  reload = () => {
+    if (this.frameRef && this.frameRef.contentWindow) {
+      this.frameRef.contentWindow.location.reload();
+    }
+  };
+
+  stopLoading = () => {
+    if (this.frameRef && this.frameRef.contentWindow) {
+      try {
+        this.frameRef.contentWindow.stop();
+      } catch (e) {
+        // Some browsers may not support window.stop()
+        console.warn('[WebView] stopLoading not supported in this browser');
+      }
+    }
+  };
+
+  // Dynamic JavaScript injection
+  injectJavaScript = (script) => {
+    if (this.frameRef && this.frameRef.contentWindow) {
+      try {
+        this.frameRef.contentWindow.eval(script);
+      } catch (e) {
+        console.error('[WebView] Error injecting JavaScript:', e);
+      }
+    }
+  };
 
   handleSource = (source, newWindow) => {
     if (!source.method) return;
@@ -30,8 +80,32 @@ export class WebView extends Component {
     const { uri, ...options } = source;
     const baseUrl = uri.substr(0, uri.lastIndexOf('/') + 1);
     fetch(uri, options)
-      .then((response) => response.text())
-      .then((html) => this.setState({ html: `<base href="${baseUrl}" />` + html }));
+      .then((response) => {
+        // Check for HTTP errors when using fetch
+        if (!response.ok && this.props.onHttpError) {
+          this.props.onHttpError({
+            nativeEvent: {
+              url: uri,
+              statusCode: response.status,
+              description: response.statusText || `HTTP Error ${response.status}`,
+            },
+          });
+        }
+        return response.text();
+      })
+      .then((html) => this.setState({ html: `<base href="${baseUrl}" />` + html }))
+      .catch((error) => {
+        // Handle network errors
+        if (this.props.onError) {
+          this.props.onError({
+            nativeEvent: {
+              url: uri,
+              title: '',
+              description: error.message || 'Network error',
+            },
+          });
+        }
+      });
   };
 
   handleSourceInNewWindow = (source, newWindow) => {
@@ -78,6 +152,8 @@ export class WebView extends Component {
       this.props.source.method !== nextProps.source.method ||
       this.props.source.body !== nextProps.source.body
     ) {
+      // Trigger onLoadStart when source changes
+      this.handleLoadStart();
       this.handleSource(nextProps.source, nextProps.newWindow);
     }
   }
@@ -92,6 +168,102 @@ export class WebView extends Component {
 
   postMessage = (message, origin) => {
     this.frameRef.contentWindow.postMessage(message, origin);
+  };
+
+  // Event handlers
+  handleLoadStart = (e) => {
+    this.setState({ isLoading: true });
+    if (this.props.onLoadStart) {
+      const { onLoadStart } = this.props;
+      const url = (this.frameRef && this.frameRef.contentWindow && this.frameRef.contentWindow.location && this.frameRef.contentWindow.location.href)
+        || (this.props.source && this.props.source.uri) || '';
+      const title = (this.frameRef && this.frameRef.contentDocument && this.frameRef.contentDocument.title) || '';
+      onLoadStart({
+        nativeEvent: {
+          url: url,
+          loading: true,
+          title: title,
+        },
+      });
+    }
+  };
+
+  handleLoadEnd = (e) => {
+    this.setState({ isLoading: false });
+    if (this.props.onLoadEnd) {
+      const { onLoadEnd } = this.props;
+      const url = (this.frameRef && this.frameRef.contentWindow && this.frameRef.contentWindow.location && this.frameRef.contentWindow.location.href)
+        || (this.props.source && this.props.source.uri) || '';
+      const title = (this.frameRef && this.frameRef.contentDocument && this.frameRef.contentDocument.title) || '';
+      onLoadEnd({
+        nativeEvent: {
+          url: url,
+          loading: false,
+          title: title,
+        },
+      });
+    }
+  };
+
+  handleLoad = (e) => {
+    this.handleLoadEnd(e);
+
+    // Check for HTTP errors (limited to same-origin or already-fetched content)
+    this.checkHttpError();
+
+    // Inject userAgent override if specified
+    if (this.props.userAgent) {
+      this.injectJavaScript(`
+        Object.defineProperty(navigator, 'userAgent', {
+          get: function() { return '${this.props.userAgent.replace(/'/g, "\\'")}'; }
+        });
+      `);
+    }
+
+    // Call original onLoad if provided
+    if (this.props.onLoad) {
+      this.props.onLoad(e);
+    }
+  };
+
+  handleError = (e) => {
+    this.setState({ isLoading: false });
+    if (this.props.onError) {
+      const { onError } = this.props;
+      const url = (this.props.source && this.props.source.uri) || '';
+      onError({
+        nativeEvent: {
+          url: url,
+          title: '',
+          description: 'Failed to load page',
+        },
+      });
+    }
+  };
+
+  // Note: onHttpError is limited in iframe context due to same-origin policy
+  // We can only detect HTTP errors for same-origin content or when using srcDoc/fetch
+  checkHttpError = () => {
+    if (this.props.onHttpError && this.frameRef) {
+      try {
+        // Try to access the iframe's document to check for error status
+        // This will only work for same-origin iframes
+        const doc = this.frameRef.contentDocument;
+        if (doc && doc.title && doc.title.includes('Error')) {
+          // Best-effort detection of error pages
+          const url = (this.props.source && this.props.source.uri) || '';
+          this.props.onHttpError({
+            nativeEvent: {
+              url: url,
+              statusCode: 0, // Unknown status code due to iframe limitations
+              description: 'HTTP Error detected',
+            },
+          });
+        }
+      } catch (e) {
+        // Cross-origin access blocked - cannot detect HTTP errors
+      }
+    }
   };
 
   handleInjectedJavaScript = (html) => {
@@ -115,7 +287,7 @@ export class WebView extends Component {
       );
     }
 
-    const { title, source, onLoad, scrollEnabled } = this.props;
+    const { title, source, scrollEnabled } = this.props;
     const styleObj = StyleSheet.flatten(this.props.style);
     return createElement('iframe', {
       title,
@@ -129,7 +301,8 @@ export class WebView extends Component {
       allowpaymentrequest: 'true',
       frameBorder: '0',
       seamless: true,
-      onLoad,
+      onLoad: this.handleLoad,
+      onError: this.handleError,
     });
   }
 }
