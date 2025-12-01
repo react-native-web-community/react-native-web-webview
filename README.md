@@ -44,9 +44,24 @@ Supported props are:
 
 - `source`
 - `onMessage`
+- `onLoad`
+- `onLoadStart`
+- `onLoadEnd`
+- `onError`
+- `onHttpError` (limited support - see notes below)
 - `scrollEnabled`
 - `injectedJavaScript`
+- `userAgent`
 - `style`
+
+Supported methods (via ref):
+
+- `goBack()` - Navigate to the previous page
+- `goForward()` - Navigate to the next page
+- `reload()` - Reload the current page
+- `stopLoading()` - Stop loading the current page
+- `injectJavaScript(script)` - Execute JavaScript in the WebView context
+- `postMessage(message, origin)` - Send a message to the WebView
 
 Additional, web-specific props are:
 
@@ -57,6 +72,19 @@ Additional, web-specific props are:
   It currently only supports a `source` prop with a `method` set to `POST`.
   Please feel free to do a PR to support more request types!
 - `title`: (_string_) This prop will set the `webview` title.
+
+## Important Notes
+
+### onHttpError Limitations
+
+Due to browser security restrictions (same-origin policy), `onHttpError` has limited support:
+- **Full support**: When using `source.method` (which uses fetch internally), HTTP errors like 404, 500, etc. are properly detected
+- **Limited support**: For direct iframe `src` loads, HTTP errors can only be detected for same-origin content
+- **No support**: Cross-origin iframe loads cannot detect HTTP errors due to browser security policies
+
+### userAgent
+
+The `userAgent` prop overrides the navigator.userAgent value within the WebView by injecting JavaScript. Note that this doesn't change the actual HTTP User-Agent header sent by the browser.
 
 ## Examples
 
